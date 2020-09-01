@@ -1,2 +1,2 @@
 # blenderWnd
- blender child window like control
+ Godot plugin. blender child window like control
