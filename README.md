@@ -1,7 +1,7 @@
 # BlenderWnd
  Godot plugin. Like Blender child window, user to set child window layout.
  
-Need MyTheme plugin, EasyButton plugin, ScrollBoxContainer plugin
+Need myTheme plugin, easyButton plugin, scrollBoxContainer plugin, transitionAnimation plugin.
 
 # Screenshot
 ![](screenshot.gif)

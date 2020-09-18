@@ -1,0 +1,12 @@
+[submodule "myTheme"]
+	path = myTheme
+	url = https://github.com/838116504/myTheme.git
+[submodule "scrollBoxContainer"]
+	path = scrollBoxContainer
+	url = https://github.com/838116504/scrollBoxContainer.git
+[submodule "easyButton"]
+	path = easyButton
+	url = https://github.com/838116504/easyButton.git
+[submodule "transitionAnimation"]
+	path = transitionAnimation
+	url = https://github.com/838116504/transitionAnimation.git
