@@ -1,7 +1,28 @@
+tool
 extends HSplitContainer
+
+const DEFAULT_SEPARATION = 2
+const DEFAULT_GRABBER = preload("empty.png")
+const DEFAULT_BG = preload("empty_styleboxempty.tres")
 
 func _init():
 	connect("dragged", self, "_on_self_dragged")
+
+func get_class():
+	return "BlenderWnd"
+
+func _notification(what):
+	match what:
+		NOTIFICATION_ENTER_TREE, NOTIFICATION_THEME_CHANGED:
+			var sep = get_constant("split_h_separation") if has_constant("split_h_separation") else DEFAULT_SEPARATION
+			if sep != get_constant("separation"):
+				add_constant_override("separation", sep)
+			var grabber = get_icon("split_h_grabber") if has_icon("split_h_grabber") else DEFAULT_GRABBER
+			if grabber != get_icon("grabber"):
+				add_icon_override("grabber", grabber)
+			var bg = get_stylebox("split_h_bg") if has_stylebox("split_h_bg") else DEFAULT_BG
+			if bg != get_stylebox("bg"):
+				add_stylebox_override("bg", bg)
 
 
 func _on_self_dragged(p_offset):
@@ -17,7 +38,8 @@ func set_offset(p_offset:float):
 	split_offset = 0
 	if get_child_count() < 2:
 		return
-	var sep = float(get_constant("separation"))
+
+	var sep:float = get_constant("separation")
 	var size = get_global_rect().size - Vector2(sep, sep)
 	p_offset -= sep / 2.0
 	var offset = clamp(p_offset, get_child(0).get_combined_minimum_size().x, size.x - get_child(1).get_combined_minimum_size().x)
@@ -65,3 +87,33 @@ func offset_fix(p_container:HSplitContainer, p_childId:int, p_offset:float):
 	
 	return p_offset - offset
 	
+
+func has_constant(p_name:String, p_type:String = "") -> bool:
+	if p_type == "" && not has_constant_override(p_name) && p_name == "split_h_separation":
+		p_type = get_class()
+	return .has_constant(p_name, p_type)
+
+func has_icon(p_name:String, p_type:String = "") -> bool:
+	if p_type == "" && not has_icon_override(p_name) && p_name == "split_h_grabber":
+		p_type = get_class()
+	return .has_icon(p_name, p_type)
+
+func has_stylebox(p_name:String, p_type:String = "") -> bool:
+	if p_type == "" && not has_stylebox_override(p_name) && p_name == "split_h_bg":
+		p_type = get_class()
+	return .has_stylebox(p_name, p_type)
+
+func get_constant(p_name:String, p_type:String = ""):
+	if p_type == "" && not has_constant_override(p_name) && p_name == "split_h_separation":
+		p_type = get_class()
+	return .get_constant(p_name, p_type)
+
+func get_icon(p_name:String, p_type:String = ""):
+	if p_type == "" && not has_icon_override(p_name) && p_name == "split_h_grabber":
+		p_type = get_class()
+	return .get_icon(p_name, p_type)
+
+func get_stylebox(p_name:String, p_type:String = ""):
+	if p_type == "" && not has_stylebox_override(p_name) && p_name == "split_h_bg":
+		p_type = get_class()
+	return .get_stylebox(p_name, p_type)

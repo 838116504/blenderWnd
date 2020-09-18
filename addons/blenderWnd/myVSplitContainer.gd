@@ -1,8 +1,28 @@
+tool
 extends VSplitContainer
+
+const DEFAULT_SEPARATION = 2
+const DEFAULT_GRABBER = preload("empty.png")
+const DEFAULT_BG = preload("empty_styleboxempty.tres")
 
 func _init():
 	connect("dragged", self, "_on_self_dragged")
 
+func get_class():
+	return "BlenderWnd"
+
+func _notification(what):
+	match what:
+		NOTIFICATION_ENTER_TREE, NOTIFICATION_THEME_CHANGED:
+			var sep = get_constant("split_v_separation") if has_constant("split_v_separation") else DEFAULT_SEPARATION
+			if sep != get_constant("separation"):
+				add_constant_override("separation", sep)
+			var grabber = get_icon("split_v_grabber") if has_icon("split_v_grabber") else DEFAULT_GRABBER
+			if grabber != get_icon("grabber"):
+				add_icon_override("grabber", grabber)
+			var bg = get_stylebox("split_v_bg") if has_stylebox("split_v_bg") else DEFAULT_BG
+			if bg != get_stylebox("bg"):
+				add_stylebox_override("bg", bg)
 
 func _on_self_dragged(p_offset):
 	set_offset_with_mouse_pos()
@@ -62,3 +82,35 @@ func offset_fix(p_container:VSplitContainer, p_childId:int, p_offset:float):
 	
 	return p_offset - offset
 	
+
+
+func has_constant(p_name:String, p_type:String = "") -> bool:
+	if p_type == "" && not has_constant_override(p_name) && p_name == "split_v_separation":
+		p_type = get_class()
+	return .has_constant(p_name, p_type)
+
+func has_icon(p_name:String, p_type:String = "") -> bool:
+	if p_type == "" && not has_icon_override(p_name) && p_name == "split_v_grabber":
+		p_type = get_class()
+	return .has_icon(p_name, p_type)
+
+func has_stylebox(p_name:String, p_type:String = "") -> bool:
+	if p_type == "" && not has_stylebox_override(p_name) && p_name == "split_v_bg":
+		p_type = get_class()
+	return .has_stylebox(p_name, p_type)
+
+func get_constant(p_name:String, p_type:String = ""):
+	if p_type == "" && not has_constant_override(p_name) && p_name == "split_v_separation":
+		p_type = get_class()
+	return .get_constant(p_name, p_type)
+
+func get_icon(p_name:String, p_type:String = ""):
+	if p_type == "" && not has_icon_override(p_name) && p_name == "split_v_grabber":
+		p_type = get_class()
+	return .get_icon(p_name, p_type)
+
+
+func get_stylebox(p_name:String, p_type:String = ""):
+	if p_type == "" && not has_stylebox_override(p_name) && p_name == "split_v_bg":
+		p_type = get_class()
+	return .get_stylebox(p_name, p_type)
