@@ -7,7 +7,7 @@ Need MyTheme plugin, EasyButton plugin, ScrollBoxContainer plugin
 ![](screenshot.gif)
 
 # Document
-[Chinese document lint](https://shimo.im/docs/hdqq9yVjWCj9QVh8/)
+[Chinese document link](https://shimo.im/docs/hdqq9yVjWCj9QVh8/)
 
 # Installing
 [Installing plugins link](https://docs.godotengine.org/en/stable/tutorials/plugins/editor/installing_plugins.html)
