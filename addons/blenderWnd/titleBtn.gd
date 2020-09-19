@@ -68,8 +68,8 @@ func _on_iconBtn_popup_show():
 		isMouseIn = false
 		emit_signal("mouse_out")
 
-func get_class():
-	return "BlenderWnd"
+#static func get_class_static():
+#	return "BlenderWnd"
 
 func get_icon_btn():
 	return $iconBtn

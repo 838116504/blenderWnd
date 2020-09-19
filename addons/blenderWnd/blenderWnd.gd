@@ -97,7 +97,7 @@ var dragPos : Vector2
 var dragState:int = DRAG_NONE setget set_drag_state, get_drag_state
 var isDragingTitle := false
 
-func get_class() -> String:
+static func get_class_static() -> String:
 	return CLASS_NAME
 
 func get_parent_class():
@@ -249,17 +249,17 @@ func _notification(what):
 				titleBar.theme.set_stylebox("pressed", "Button", STYLEBOX_THEME_NAMES["title_bg_pressed"])
 			
 			if has_icon_override("title_close"):
-				titleBar.theme.set_icon("title_close", get_class(), get_icon("title_close"))
-			elif titleBar.theme.has_icon("title_close", get_class()):
-				titleBar.theme.clear_icon("title_close", get_class())
+				titleBar.theme.set_icon("title_close", get_class_static(), get_icon("title_close"))
+			elif titleBar.theme.has_icon("title_close", get_class_static()):
+				titleBar.theme.clear_icon("title_close", get_class_static())
 			if has_icon_override("title_close_hover"):
-				titleBar.theme.set_icon("title_close_hover", get_class(), get_icon("title_close_hover"))
-			elif titleBar.theme.has_icon("title_close_hover", get_class()):
-				titleBar.theme.clear_icon("title_close_hover", get_class())
+				titleBar.theme.set_icon("title_close_hover", get_class_static(), get_icon("title_close_hover"))
+			elif titleBar.theme.has_icon("title_close_hover", get_class_static()):
+				titleBar.theme.clear_icon("title_close_hover", get_class_static())
 			if has_icon_override("title_close_pressed"):
-				titleBar.theme.set_icon("title_close_pressed", get_class(), get_icon("title_close_pressed"))
-			elif titleBar.theme.has_icon("title_close_pressed", get_class()):
-				titleBar.theme.clear_icon("title_close_pressed", get_class())
+				titleBar.theme.set_icon("title_close_pressed", get_class_static(), get_icon("title_close_pressed"))
+			elif titleBar.theme.has_icon("title_close_pressed", get_class_static()):
+				titleBar.theme.clear_icon("title_close_pressed", get_class_static())
 			
 			if has_font("title_font"):
 				titleBar.theme.set_font("font", "Button", get_font("title_font"))
@@ -1293,7 +1293,7 @@ func _get(p_property:String):
 		return self.wndFactories
 
 	var array = p_property.split("/", true, 1)
-	if array.size() < 2 || array[0] != get_class():
+	if array.size() < 2 || array[0] != get_class_static():
 		return null
 	if array[1] == "child_wnd_data":
 		return _get_child_wnd_data()
@@ -1313,7 +1313,7 @@ func _set(p_property:String, p_value):
 		return true
 
 	var array = p_property.split("/", true, 1)
-	if array.size() < 2 || array[0] != get_class():
+	if array.size() < 2 || array[0] != get_class_static():
 		return false
 	if array[1] == "child_wnd_data":
 		_set_child_wnd_data(p_value)
@@ -1414,7 +1414,7 @@ func _get_property_list():
 	for i in range(0, THEMES.size(), 2):
 		call(THEME_METHODS[THEMES[i]], ret, THEMES[i + 1])
 	
-	ret.append({ "name":get_class() + "/child_wnd_data", "type":TYPE_ARRAY, "hint_string":str(TYPE_ARRAY), "usage":PROPERTY_USAGE_STORAGE })
+	ret.append({ "name":get_class_static() + "/child_wnd_data", "type":TYPE_ARRAY, "hint_string":str(TYPE_ARRAY), "usage":PROPERTY_USAGE_STORAGE })
 	return ret
 
 static func _register_default_theme(p_theme:MyTheme):
@@ -1437,74 +1437,74 @@ static func _register_default_theme(p_theme:MyTheme):
 		p_theme.set_font(i, CLASS_NAME, FONT_THEME_NAMES[i])
 
 func _property_add_group(p_list:Array, p_name:String):
-	p_list.append({ "name":p_name, "type":TYPE_NIL, "hint_string":get_class() + "/" + p_name.to_lower() + "_", "usage":PROPERTY_USAGE_GROUP })
+	p_list.append({ "name":p_name, "type":TYPE_NIL, "hint_string":get_class_static() + "/" + p_name.to_lower() + "_", "usage":PROPERTY_USAGE_GROUP })
 
 func _property_add_icon(p_list:Array, p_name:String):
 	if has_icon_override(p_name):
-		p_list.append({ "name":get_class() + "/" + p_name, "type":TYPE_OBJECT, "hint":PROPERTY_HINT_RESOURCE_TYPE, 
+		p_list.append({ "name":get_class_static() + "/" + p_name, "type":TYPE_OBJECT, "hint":PROPERTY_HINT_RESOURCE_TYPE, 
 				"hint_string":"Texture", "usage":PROPERTY_USAGE_DEFAULT|PROPERTY_USAGE_CHECKABLE|PROPERTY_USAGE_CHECKED })
 	else:
-		p_list.append({ "name":get_class() + "/" + p_name, "type":TYPE_OBJECT, "hint":PROPERTY_HINT_RESOURCE_TYPE, 
+		p_list.append({ "name":get_class_static() + "/" + p_name, "type":TYPE_OBJECT, "hint":PROPERTY_HINT_RESOURCE_TYPE, 
 				"hint_string":"Texture", "usage":PROPERTY_USAGE_EDITOR|PROPERTY_USAGE_CHECKABLE })
 
 func _property_add_stylebox(p_list:Array, p_name:String):
 	if has_stylebox_override(p_name):
-		p_list.append({ "name":get_class() + "/" + p_name, "type":TYPE_OBJECT, "hint":PROPERTY_HINT_RESOURCE_TYPE, 
+		p_list.append({ "name":get_class_static() + "/" + p_name, "type":TYPE_OBJECT, "hint":PROPERTY_HINT_RESOURCE_TYPE, 
 				"hint_string":"StyleBox", "usage":PROPERTY_USAGE_DEFAULT|PROPERTY_USAGE_CHECKABLE|PROPERTY_USAGE_CHECKED })
 	else:
-		p_list.append({ "name":get_class() + "/" + p_name, "type":TYPE_OBJECT, "hint":PROPERTY_HINT_RESOURCE_TYPE, 
+		p_list.append({ "name":get_class_static() + "/" + p_name, "type":TYPE_OBJECT, "hint":PROPERTY_HINT_RESOURCE_TYPE, 
 				"hint_string":"StyleBox", "usage":PROPERTY_USAGE_EDITOR|PROPERTY_USAGE_CHECKABLE })
 
 func _property_add_constant(p_list:Array, p_name:String):
 	if has_constant_override(p_name):
-		p_list.append({ "name":get_class() + "/" + p_name, "type":TYPE_INT, "usage":PROPERTY_USAGE_DEFAULT|PROPERTY_USAGE_CHECKABLE|PROPERTY_USAGE_CHECKED })
+		p_list.append({ "name":get_class_static() + "/" + p_name, "type":TYPE_INT, "usage":PROPERTY_USAGE_DEFAULT|PROPERTY_USAGE_CHECKABLE|PROPERTY_USAGE_CHECKED })
 	else:
-		p_list.append({ "name":get_class() + "/" + p_name, "type":TYPE_INT, "usage":PROPERTY_USAGE_EDITOR|PROPERTY_USAGE_CHECKABLE })
+		p_list.append({ "name":get_class_static() + "/" + p_name, "type":TYPE_INT, "usage":PROPERTY_USAGE_EDITOR|PROPERTY_USAGE_CHECKABLE })
 
 func _property_add_font(p_list:Array, p_name:String):
 	if has_font_override(p_name):
-		p_list.append({ "name":get_class() + "/" + p_name, "type":TYPE_OBJECT, "hint":PROPERTY_HINT_RESOURCE_TYPE, 
+		p_list.append({ "name":get_class_static() + "/" + p_name, "type":TYPE_OBJECT, "hint":PROPERTY_HINT_RESOURCE_TYPE, 
 				"hint_string":"Font", "usage":PROPERTY_USAGE_DEFAULT|PROPERTY_USAGE_CHECKABLE|PROPERTY_USAGE_CHECKED })
 	else:
-		p_list.append({ "name":get_class() + "/" + p_name, "type":TYPE_OBJECT, "hint":PROPERTY_HINT_RESOURCE_TYPE, 
+		p_list.append({ "name":get_class_static() + "/" + p_name, "type":TYPE_OBJECT, "hint":PROPERTY_HINT_RESOURCE_TYPE, 
 				"hint_string":"Font", "usage":PROPERTY_USAGE_EDITOR|PROPERTY_USAGE_CHECKABLE })
 
 func has_constant(p_name:String, p_type:String = "") -> bool:
 	if p_type == "" && not has_constant_override(p_name) && CONSTANT_THEME_NAMES.has(p_name):
-		p_type = get_class()
+		p_type = get_class_static()
 	return .has_constant(p_name, p_type)
 
 func has_icon(p_name:String, p_type:String = "") -> bool:
 	if p_type == "" && not has_icon_override(p_name) && ICON_THEME_NAMES.has(p_name):
-		p_type = get_class()
+		p_type = get_class_static()
 	return .has_icon(p_name, p_type)
 
 func has_font(p_name:String, p_type:String = "") -> bool:
 	if p_type == "" && not has_font_override(p_name) && FONT_THEME_NAMES.has(p_name):
-		p_type = get_class()
+		p_type = get_class_static()
 	return .has_font(p_name, p_type)
 
 func has_stylebox(p_name:String, p_type:String = "") -> bool:
 	if p_type == "" && not has_stylebox_override(p_name) && STYLEBOX_THEME_NAMES.has(p_name):
-		p_type = get_class()
+		p_type = get_class_static()
 	return .has_stylebox(p_name, p_type)
 
 func get_constant(p_name:String, p_type:String = ""):
 	if p_type == "" && not has_constant_override(p_name) && CONSTANT_THEME_NAMES.has(p_name):
-		p_type = get_class()
+		p_type = get_class_static()
 	return .get_constant(p_name, p_type)
 
 func get_icon(p_name:String, p_type:String = ""):
 	if p_type == "" && not has_icon_override(p_name) && ICON_THEME_NAMES.has(p_name):
-		p_type = get_class()
+		p_type = get_class_static()
 	return .get_icon(p_name, p_type)
 
 func get_font(p_name:String, p_type:String = ""):
 	if p_type == "" && not has_font_override(p_name) && FONT_THEME_NAMES.has(p_name):
-		p_type = get_class()
+		p_type = get_class_static()
 	return .get_font(p_name, p_type)
 
 func get_stylebox(p_name:String, p_type:String = ""):
 	if p_type == "" && not has_stylebox_override(p_name) && STYLEBOX_THEME_NAMES.has(p_name):
-		p_type = get_class()
+		p_type = get_class_static()
 	return .get_stylebox(p_name, p_type)
